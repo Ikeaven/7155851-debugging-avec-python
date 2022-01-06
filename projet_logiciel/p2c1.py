@@ -1,7 +1,9 @@
 # -*- coding: utf8 -*-
 
-from random import randint 
-import datetime
+from random import randint
+from tkinter import Button, Label, PhotoImage, Tk
+
+# import datetime
 
 """
 print("Bienvenue dans le jeu Pierre Feuille Ciseaux")
@@ -13,12 +15,14 @@ annee_de_naissance = 2000
 print(f"Bonjour {nom}, nous sommes en {annee_actuelle}, du coup tu as {int(annee_actuelle) - annee_de_naissance}.")
 """
 
-class PierreFeuilleCiseaux :
+
+class PierreFeuilleCiseaux:
     """
     Classe qui permet de jouer au jeu Pierre Feuille Ciseaux, de mettre à jour le score
     en fonction des choix du joueur et de rejouer une partie
     """
-    def _init_(self, nouveau_score_joueur, nouveau_score_ia, label_joueur, label_ia):
+
+    def __init__(self, nouveau_score_joueur, nouveau_score_ia, label_joueur, label_ia):
         """
         Constructeur de la classe qui initialise les variables
         """
@@ -50,18 +54,18 @@ class PierreFeuilleCiseaux :
         """
         Méthode qui permet de mettre jour le label en fonction des choix
         """
-        choix_ia = randint(1,3)
-        if choix_ia==1:
+        choix_ia = randint(1, 3)
+        if choix_ia == 1:
             self.label_ia.configure(image=pierre)
-        elif choix_ia==2:
+        elif choix_ia == 2:
             self.label_ia.configure(image=feuille)
         else:
             self.label_ia.configure(image=ciseaux)
-        self.maj_scores(choix_ia,choix_joueur)
+        self.maj_scores(choix_ia, choix_joueur)
         self.nouveau_score_joueur.configure(text=str(self.score_joueur))
         self.nouveau_score_ia.configure(text=str(self.score_intelligence_artificielle))
-    
-    def jouer_pierre():
+
+    def jouer_pierre(self):
         """
         Méthode qui permet de modifier l'image si la pierre a été choisie
         """
@@ -93,24 +97,27 @@ class PierreFeuilleCiseaux :
         self.label_joueur.configure(image=zero)
         self.label_ia.configure(image=zero)
 
-from tkinter import PhotoImage, Tk
-
-versus = PhotoImage(file ='vs.gif')
-pierre = PhotoImage(file ='pierre.gif')
-feuille = PhotoImage(file ='feuille.gif')
-ciseaux = PhotoImage(file ='ciseaux.gif')
 
 fenetre = Tk()
 fenetre.title("Pierre Feuille Ciseaux")
 
+versus = PhotoImage(file="vs.gif")
+pierre = PhotoImage(file="pierre.gif")
+feuille = PhotoImage(file="feuille.gif")
+ciseaux = PhotoImage(file="ciseaux.gif")
+
 texte1 = Label(fenetre, text="Vous", font=("Arial", "20", "bold"))
-texte1.grid(row=0,column=0)
+texte1.grid(row=0, column=0)
 
 texte2 = Label(fenetre, text="Intelligence artificielle", font=("Arial", 20, "bold"))
-texte2.grid(row=0,column=2)
+texte2.grid(row=0, column=2)
 
-texte3 = Label(fenetre, text="Pour jouer, cliquez sur une des icônes ci-dessous.",font=("Arial", 20, "bold"))
-texte3.grid(row=3, columnspan =3, pady =5)
+texte3 = Label(
+    fenetre,
+    text="Pour jouer, cliquez sur une des icônes ci-dessous.",
+    font=("Arial", 20, "bold"),
+)
+texte3.grid(row=3, columnspan=3, pady=5)
 
 nouveau_score_joueur = Label(fenetre, text="0", font=("Arial", 20, "bold"))
 nouveau_score_joueur.grid(row=1, column=0)
@@ -118,33 +125,45 @@ nouveau_score_joueur.grid(row=1, column=0)
 nouveau_score_ia = Label(fenetre, text="0", font=("Arial", 20, "bold"))
 nouveau_score_ia.grid(row=1, column=2)
 
+zero = PhotoImage(file="zero.gif")
+
 label_joueur = Label(fenetre, image=zero)
-label_joueur.grid(row =2, column =0)
+label_joueur.grid(row=2, column=0)
 
 label_vs = Label(fenetre, image=versus)
-label_vs.grid(row =2, column =1)
+label_vs.grid(row=2, column=1)
 
 label_ia = Label(fenetre, image=zero)
-label_ia.grid(row =2, column =2)
+label_ia.grid(row=2, column=2)
 
-zero = PhotoImage(file ='zero.jpg')
 
-jeu = PierreFeuilleCiseaux(nouveau_score_joueur, nouveau_score_ia, label_joueur, label_ia)
+jeu = PierreFeuilleCiseaux(
+    nouveau_score_joueur, nouveau_score_ia, label_joueur, label_ia
+)
 
-bouton_pierre = Button(fenetre,command=jeu.jouer_pierre).configure(image=pierre).grid(row =4, column =0)
+bouton_pierre = Button(fenetre, command=jeu.jouer_pierre)
+bouton_pierre.configure(image=pierre)
+bouton_pierre.grid(row=4, column=0)
 
-bouton_feuille = Button(fenetre,command=jeu.jouer_feuille)
+bouton_feuille = Button(fenetre, command=jeu.jouer_feuille)
 bouton_feuille.configure(image=feuille)
-bouton_feuille.grid(row =4, column =1,)
+bouton_feuille.grid(
+    row=4,
+    column=1,
+)
 
-bouton_ciseaux = Button(fenetre,command=jeu.jouer_ciseaux)
+bouton_ciseaux = Button(fenetre, command=jeu.jouer_ciseaux)
 bouton_ciseaux.configure(image=ciseaux)
-bouton_ciseaux.grid(row =4, column =2)
+bouton_ciseaux.grid(row=4, column=2)
 
-bouton_recommence = Button(fenetre,text='Rejouer',command=jeu.rejouer,font=("Courier", 20, "bold"))
-bouton_recommencer.grid(row =5, column =0, pady =10, sticky=E)
+bouton_recommencer = Button(
+    fenetre, text="Rejouer", command=jeu.rejouer, font=("Courier", 20, "bold")
+)
+bouton_recommencer.grid(row=5, column=0, pady=10, sticky="E")
 
-bouton_quitter = Button(fenetre,text='Quitter',command=quit,font=("Courier", 20, "bold"))
-bouton_quitter.grid(row =5, column =2, pady =10, sticky=W)
+bouton_quitter = Button(
+    fenetre, text="Quitter", command=quit, font=("Courier", 20, "bold")
+)
+bouton_quitter.grid(row=5, column=2, pady=10, sticky="W")
 
 fenetre.mainloop()
